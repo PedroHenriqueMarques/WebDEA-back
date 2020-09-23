@@ -2,6 +2,7 @@
 # Author: Pedro Henrique Resende Marques
 
 from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from marshmallow import ValidationError
@@ -15,6 +16,9 @@ from resources.users import UserRegister, UserLogin, User, TokenRefresh, UserLog
 
 
 app = Flask(__name__)
+cors = CORS(app)
+
+app.config["CORS_HEADERS"] = "Content-Type"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
