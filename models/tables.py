@@ -16,8 +16,8 @@ class TableModel(db.Model):
         return cls.query.filter_by(Id=_id).all()
 
     @classmethod
-    def find_by_table_name(cls, name: str, user_id: int) -> "TableModel":
-        return cls.query.filter_by(table_name=name,userId=user_id).first()
+    def find_by_table_name(cls, name: str) -> "TableModel":
+        return cls.query.filter_by(table_name=name).first()
 
     @classmethod
     def find_all_user_tables_names(cls, user_id: int) -> List:

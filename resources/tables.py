@@ -14,7 +14,7 @@ user_tables_list_schema = TableSchema(many=True)
 
 class Table(Resource):
     @classmethod
-    def get(cls, name: int):
+    def get(cls, name: str):
         table = TableModel.find_by_table_name(name)
         if not table:
             return {"message": TABLE_NOT_FOUND}, 404
