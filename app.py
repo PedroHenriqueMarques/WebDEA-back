@@ -13,7 +13,7 @@ from ma import ma
 from blacklist import BLACKLIST
 
 from resources.users import UserRegister, UserLogin, User, TokenRefresh, UserLogout
-
+from resources.tables import Table, UserTables
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -54,7 +54,10 @@ api.add_resource(UserLogin, "/login")
 api.add_resource(UserLogout, "/logout")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(User, "/user/<int:user_id>")
+api.add_resource(Table, "/table/<string:name>")
+api.add_resource(UserTables, "/tables/<string:user>")
 
 if __name__ == "__main__":
     db.init_app(app)
+    ma.init_app(app)
     app.run(port=5000, debug=True)
