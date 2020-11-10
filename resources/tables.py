@@ -66,7 +66,7 @@ class Table(Resource):
         except:
             return {"message": ERROR_SAVING}, 500
 
-        return table.schema.dump(table), 200
+        return table_schema.dump(table), 200
 
     
 class UserTables(Resource):
