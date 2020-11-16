@@ -59,12 +59,13 @@ class Table(Resource):
         user_id = UserModel.find_by_username(table_json["username"]).Id
         table = TableModel.find_by_table_name(name)
 
-        if not table:
-            table_data = {}
-            table_data["table_name"] = name
-            table_data["userId"] = user_id
-            table_data["table"] = json.dumps(table_json["table"])
-            table = table_schema.load(table_data)
+        #if not table:
+        table_data = {}
+        table_data["table_name"] = name
+        table_data["userId"] = user_id
+        table_data["table"] = json.dumps(table_json["table"])
+        table = table_schema.load(table_data)
+
 
         try:
             table.save_to_db()
