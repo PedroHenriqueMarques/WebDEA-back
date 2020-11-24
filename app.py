@@ -1,11 +1,13 @@
 # app.py
 # Author: Pedro Henrique Resende Marques
-
+import os
 from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from marshmallow import ValidationError
+from flask_uploads import configure_uploads, patch_request_class
+#from dotenv import load_dotenv
 
 
 from db import db
@@ -14,6 +16,8 @@ from blacklist import BLACKLIST
 
 from resources.users import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.tables import Table, UserTables
+from resources.tableUpload import TableUpload
+from libs.file_helper import FILE_SET
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -28,6 +32,9 @@ app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = [
     "refresh",
 ]  # allow blacklisting for access and refresh tokens
 app.secret_key = "Pedro"  # could do app.config['JWT_SECRET_KEY'] if we prefer
+app.config["UPLOADED_TABLES_DEST"] = os.path.join("static", "tables")
+patch_request_class(app, 10 * 1024 * 1024) #10MB max size upload
+configure_uploads(app, FILE_SET)
 api = Api(app)
 
 
@@ -56,6 +63,8 @@ api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(Table, "/table/<string:name>")
 api.add_resource(UserTables, "/tables/<string:user>")
+api.add_resource(TableUpload, "/upload/table")
+
 
 if __name__ == "__main__":
     db.init_app(app)

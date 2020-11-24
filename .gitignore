@@ -1,5 +1,6 @@
 __pycache__/
-*.pyc
+* .pyc
 Pipfile
 Pipfile.lock
-*.db
+* .db
+static/
