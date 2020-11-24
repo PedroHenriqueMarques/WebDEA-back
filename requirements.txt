@@ -7,6 +7,5 @@ marshmallow
 flask-marshmallow
 marshmallow-sqlalchemy
 flask_cors
-flask-uploads
 pandas
 xlrd
