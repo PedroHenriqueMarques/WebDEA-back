@@ -42,7 +42,7 @@ class TableUpload(Resource):
         else:
             data_df = read_excel(data["table"])
         
-        table_json = data_df.to_json()
+        table_json = data_df.to_json(orient='records')
 
         table_data = {}
         table_data["table_name"] = table_name
