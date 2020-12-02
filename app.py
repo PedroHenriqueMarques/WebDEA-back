@@ -17,6 +17,7 @@ from blacklist import BLACKLIST
 from resources.users import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.tables import Table, UserTables
 from resources.tableUpload import TableUpload
+from resources.DEAmodels import DeaIoccr
 from libs.file_helper import FILE_SET
 
 app = Flask(__name__)
@@ -64,6 +65,7 @@ api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(Table, "/table/<string:name>")
 api.add_resource(UserTables, "/tables/<string:user>")
 api.add_resource(TableUpload, "/upload/table")
+api.add_resource(DeaIoccr, "/models/ioccr/<string:tableName>")
 
 
 if __name__ == "__main__":
