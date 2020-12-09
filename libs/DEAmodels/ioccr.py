@@ -15,6 +15,8 @@ def read_json(file_name):
     tb = json.loads(json.loads(data['table']))
     data['table'] = tb
     return data 
+
+
 def get_inputs_outputs_list(data):
   '''
   data : a dictionary with a data table with inputs and outputs of the dmus row-wise organized
@@ -41,7 +43,7 @@ def get_inputs_outputs_list(data):
 
 def get_inputs_outputs_dict(data):
   '''
-  data : a dictionary with a data table with inputs and outputs of the dmus row-wise organized
+  data : a dictionary with a data table with inputs and outputs of the dmus col-wise organized
   x,y : (DMUs x INPUTS), (DMUS x OUTPUTS) two matrices with the DMUs' inputs and outputs
   '''
   tb = data['table']
@@ -116,13 +118,63 @@ def ioccr(x,y):
   sol['lambda'] = _ll
   return sol
 
+
+
+def get_solution_list(data, sol):
+  '''
+  data : a dictionary with a data table with inputs and outputs of the dmus row-wise organized
+  sol : solution found by the model
+  x,y : (DMUs x INPUTS), (DMUS x OUTPUTS) two matrices with the DMUs' inputs and outputs
+  '''
+  tb = data['table']
+
+  DMU_list = []
+  for item in tb:
+    for k,v in item.items():
+      if k == 'DMU':
+        DMU_list.append(v)
+      else:
+        break
+    
+  DMU_list.pop(0)  
+  sol_out = sol.copy()
+
+  for k,v in sol_out.items():
+    if isinstance(v, list):
+      for i,x in enumerate(v):
+        sol_out[k][i] = {DMU_list[i]: x}
+  
+  return sol_out
+
+def get_solution_dict(data, sol):
+  '''
+  data : a dictionary with a data table with inputs and outputs of the dmus col-wise organized
+  sol : solution found by the model
+  x,y : (DMUs x INPUTS), (DMUS x OUTPUTS) two matrices with the DMUs' inputs and outputs
+  '''
+  tb = data['table']
+
+  DMU_list = [tb['DMU'][str(i)] for i in range(1,len(tb['DMU']))]
+  sol_out = sol.copy()
+
+  for k,v in sol_out.items():
+    if isinstance(v, list):
+      for i,x in enumerate(v):
+        sol_out[k][i] = {DMU_list[i]: x}
+  
+  return sol_out
+
+
+
 def solveIoccr(data):
   if isinstance(data['table'], list):
     x,y = get_inputs_outputs_list(data)
+    sol = ioccr(x,y)
+    sol = get_solution_list(data,sol)
   else:
     x,y = get_inputs_outputs_dict(data)
-  
-  sol = ioccr(x,y)
+    sol = ioccr(x,y)
+    sol = get_solution_dict(data,sol)
   return sol
 
 
