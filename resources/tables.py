@@ -1,5 +1,7 @@
 from flask import request, json
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 from models.tables import TableModel
 from models.users import UserModel
 from schemas.table import TableSchema
@@ -54,17 +56,21 @@ class Table(Resource):
         return {"message": TABLE_NOT_FOUND}, 404
 
     @classmethod
+    @jwt_required
     def put(cls, name: str):
         table_json = request.get_json()
-        user_id = UserModel.find_by_username(table_json["username"]).Id
+        user_id = get_jwt_identity()
         table = TableModel.find_by_table_name(name)
 
-        #if not table:
-        table_data = {}
-        table_data["table_name"] = name
-        table_data["userId"] = user_id
-        table_data["table"] = json.dumps(table_json["table"])
-        table = table_schema.load(table_data)
+        if table:
+            table.table = json.dumps(table_json["table"])
+
+        else:
+            table_data = {}
+            table_data["table_name"] = name
+            table_data["userId"] = user_id
+            table_data["table"] = json.dumps(table_json["table"])
+            table = table_schema.load(table_data)
 
 
         try:
