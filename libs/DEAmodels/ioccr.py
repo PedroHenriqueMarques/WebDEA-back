@@ -138,17 +138,24 @@ def get_solution_list(data, sol):
     
   DMU_list.pop(0)  
   sol_out = sol.copy()
-
+  
   for k,v in sol_out.items():
     if isinstance(v, list):
       for i,x in enumerate(v):
-        sol_out[k][i] = {DMU_list[i]: x}
+        if k == 'lambda':
+          temp = {}
+          for j in range(len(x)):
+            temp[DMU_list[j]] = x[j]
+          temp[k] = DMU_list[i]
+          sol_out[k][i] = temp
+        else:
+          sol_out[k][i] = {k: DMU_list[i], "value" : x}
   
   return sol_out
 
 def get_solution_dict(data, sol):
   '''
-  data : a dictionary with a data table with inputs and outputs of the dmus col-wise organized
+  data : a dictionary with a data table with inputs and outputs of the dmus row-wise organized
   sol : solution found by the model
   x,y : (DMUs x INPUTS), (DMUS x OUTPUTS) two matrices with the DMUs' inputs and outputs
   '''
@@ -160,10 +167,16 @@ def get_solution_dict(data, sol):
   for k,v in sol_out.items():
     if isinstance(v, list):
       for i,x in enumerate(v):
-        sol_out[k][i] = {DMU_list[i]: x}
-  
+        if k == 'lambda':
+          temp = {}
+          for j in range(len(x)):
+            temp[DMU_list[j]] = x[j]
+          temp[k] = DMU_list[i]
+          sol_out[k][i] = temp
+        else:
+          sol_out[k][i] = {k: DMU_list[i], "value" : x}
+          
   return sol_out
-
 
 
 def solveIoccr(data):
