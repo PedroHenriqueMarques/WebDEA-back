@@ -144,9 +144,10 @@ def get_solution_list(data, sol):
       for i,x in enumerate(v):
         if k == 'lambda':
           temp = {}
+          temp['DMU'] = DMU_list[i]
           for j in range(len(x)):
             temp[DMU_list[j]] = x[j]
-          temp[k] = DMU_list[i]
+          
           sol_out[k][i] = temp
         else:
           sol_out[k][i] = {k: DMU_list[i], "value" : x}
