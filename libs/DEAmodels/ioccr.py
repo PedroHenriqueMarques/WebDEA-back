@@ -146,11 +146,11 @@ def get_solution_list(data, sol):
           temp = {}
           temp['DMU'] = DMU_list[i]
           for j in range(len(x)):
-            temp[DMU_list[j]] = x[j]
+            temp[DMU_list[j]] = round(x[j],2)
           
           sol_out[k][i] = temp
         else:
-          sol_out[k][i] = {k: DMU_list[i], "value" : x}
+          sol_out[k][i] = {k: DMU_list[i], "value" : round(x,2)}
   
   return sol_out
 
@@ -171,11 +171,11 @@ def get_solution_dict(data, sol):
         if k == 'lambda':
           temp = {}
           for j in range(len(x)):
-            temp[DMU_list[j]] = x[j]
+            temp[DMU_list[j]] = round(x[j],2)
           temp[k] = DMU_list[i]
           sol_out[k][i] = temp
         else:
-          sol_out[k][i] = {k: DMU_list[i], "value" : x}
+          sol_out[k][i] = {k: DMU_list[i], "value" : round(x,2)}
           
   return sol_out
 
