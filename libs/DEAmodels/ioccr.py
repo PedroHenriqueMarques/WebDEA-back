@@ -1,8 +1,8 @@
 import sys
 import warnings
 
-import io_reduction_functions as io
-import json_manager as jm
+import libs.DEAmodels.io_reduction_functions as io
+import libs.DEAmodels.json_manager as jm
 
 
 def ioccr(x,y):
