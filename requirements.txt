@@ -7,6 +7,7 @@ marshmallow
 flask-marshmallow
 marshmallow-sqlalchemy
 flask_cors
+numpy
 pandas
 xlrd
 mip
