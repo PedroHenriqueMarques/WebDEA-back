@@ -67,6 +67,10 @@ api.add_resource(UserTables, "/tables/<string:user>")
 api.add_resource(TableUpload, "/upload/table")
 api.add_resource(DeaIoccr, "/models/ioccr/<string:tableName>")
 
+@app.route("/")
+@cross_origin()
+def helloWorld():
+    return "Hello, cross-origin-world!"
 
 if __name__ == "__main__":
     db.init_app(app)
