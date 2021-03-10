@@ -18,7 +18,7 @@ CREATED_SUCCESSFULLY = "User created successfully."
 USER_NOT_FOUND = "User not found."
 USER_DELETED = "User deleted."
 INVALID_CREDENTIALS = "Invalid credentials!"
-USER_LOGGED_OUT = "User <id={}> successfully logged out."
+USER_LOGGED_OUT = "User <name={}> successfully logged out."
 
 user_schema = UserSchema()
 
@@ -76,8 +76,9 @@ class UserLogout(Resource):
     def post(cls):
         jti = get_raw_jwt()["jti"]  # jti is "JWT ID", a unique identifier for a JWT.
         user_id = get_jwt_identity()
+        user = UserModel.find_by_id(user_id)
         BLACKLIST.add(jti)
-        return {"message": USER_LOGGED_OUT.format(user_id)}, 200
+        return {"message": USER_LOGGED_OUT.format(user.username)}, 200
 
 
 class TokenRefresh(Resource):
